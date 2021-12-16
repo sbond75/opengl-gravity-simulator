@@ -14,7 +14,7 @@ namespace ui {
 			// Load the font atlas as texture
 			std::cout << "Loading font atlas..." << std::endl;
 			int nrChannels;
-			unsigned char* data = stbi_load("fonts\\Comfortaa.png", &AtlasWidth, &AtlasHeight, &nrChannels, 0);
+			unsigned char* data = stbi_load("fonts/Comfortaa.png", &AtlasWidth, &AtlasHeight, &nrChannels, 0);
 
 			glGenTextures(1, &FontTextureID);
 			glBindTexture(GL_TEXTURE_2D, FontTextureID);

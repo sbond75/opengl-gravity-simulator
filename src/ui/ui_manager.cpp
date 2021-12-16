@@ -125,12 +125,12 @@ namespace ui {
 		sceneSettingsComponents.sceneNameInput = new TextFieldComponent("Scene name", "");
 
 		sceneSettingsComponents.saveButton = new ButtonComponent("Save", []() {
-			saveScene(renderer::loadedUniverse, std::string("Scenes\\"+sceneSettingsComponents.sceneNameInput->getText()+".scene").c_str());
+			saveScene(renderer::loadedUniverse, std::string("Scenes/"+sceneSettingsComponents.sceneNameInput->getText()+".scene").c_str());
 		});
 		sceneSettingsComponents.loadButton = new ButtonComponent("Load", []() {
 			std::string sceneName = sceneSettingsComponents.sceneNameInput->getText();
 			if (sceneName.length() > 0) {
-				Universe* universe = loadScene(std::string("Scenes\\" + sceneName + ".scene").c_str());
+				Universe* universe = loadScene(std::string("Scenes/" + sceneName + ".scene").c_str());
 				if (universe != nullptr) {
 					if (renderer::loadedUniverse != nullptr) delete renderer::loadedUniverse;
 					renderer::setUniverse(universe);

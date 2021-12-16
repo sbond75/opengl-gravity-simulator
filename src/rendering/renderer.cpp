@@ -202,6 +202,15 @@ int renderer::init() {
 	if (!glfwInit())
 		return -1;
 
+	// https://stackoverflow.com/questions/62990972/why-is-opengl-giving-me-the-error-error-01-version-330-is-not-support
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+	std::cout << "I'm apple machine" << std::endl;
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+  
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(1280, 720, "Gravity Simulator 3D", NULL, NULL);
 	if (!window) // Has the window been created?
@@ -228,11 +237,11 @@ int renderer::init() {
 
 	std::cout << "Shader load start" << std::endl;
 
-	shader.ProgramID = LoadShaderProgram("shaders\\default\\vertexShader.glsl", "shaders\\default\\fragmentShader.glsl");
-	starShader.ProgramID = LoadShaderProgram("shaders\\stars\\vertexShader.glsl", "shaders\\stars\\fragmentShader.glsl");
-	overlayShader.ProgramID = LoadShaderProgram("shaders\\overlay\\vertexShader.glsl", "shaders\\overlay\\fragmentShader.glsl");
-	uiShader.ProgramID = LoadShaderProgram("shaders\\ui\\vertexShader.glsl", "shaders\\ui\\fragmentShader.glsl");
-	postProcessingShader.ProgramID = LoadShaderProgram("shaders\\postprocessing\\vertexShader.glsl", "shaders\\postprocessing\\fragmentShader.glsl");
+	shader.ProgramID = LoadShaderProgram("shaders/default/vertexShader.glsl", "shaders/default/fragmentShader.glsl");
+	starShader.ProgramID = LoadShaderProgram("shaders/stars/vertexShader.glsl", "shaders/stars/fragmentShader.glsl");
+	overlayShader.ProgramID = LoadShaderProgram("shaders/overlay/vertexShader.glsl", "shaders/overlay/fragmentShader.glsl");
+	uiShader.ProgramID = LoadShaderProgram("shaders/ui/vertexShader.glsl", "shaders/ui/fragmentShader.glsl");
+	postProcessingShader.ProgramID = LoadShaderProgram("shaders/postprocessing/vertexShader.glsl", "shaders/postprocessing/fragmentShader.glsl");
 
 	shader.MatrixUniformID = glGetUniformLocation(shader.ProgramID, "MVP");
 	shader.ViewMatrixUniformID = glGetUniformLocation(shader.ProgramID, "V");
@@ -779,12 +788,12 @@ void renderer::renderGrid(glm::mat4 projectionMatrix, glm::mat4 viewMatrix) {
 		for (float j = -1000; j <= 1000; j += 100) {
 			glVertex3f(i, 0.0f, j);
 		}
-		glPrimitiveRestartNV();
+		glEnd(); glBegin(GL_LINE_STRIP); //glPrimitiveRestartNV();
 
 		for (float j = -1000; j <= 1000; j += 100) {
 			glVertex3f(j, 0.0f, i);
 		}
-		glPrimitiveRestartNV();
+		glEnd(); glBegin(GL_LINE_STRIP); //glPrimitiveRestartNV();
 	}
 	glEnd();
 }
